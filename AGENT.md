@@ -26,25 +26,47 @@ At the start of Phase 1, ask the user which approval mode they prefer:
 | **🔓 Milestone** | Agent works through tasks autonomously, stops for approval at each milestone boundary |
 | **🚀 Auto** | Agent proceeds autonomously, only stopping for decisions that require user input |
 
-Default to **🔓 Milestone** if the user has no preference. Record the choice in `docs/decisions.md`.
+Default to **🔓 Milestone** if the user has no preference. Record the choice in `docs/[date]<plan>/decisions.md`.
 
 ---
 
 ## Document Map
 
-All project documents live in the `docs/` folder:
+All project documents live in the `docs/` folder. Each plan iteration is organized in a **timestamped folder** with the format `docs/[YYYY-MM-DD]<plan-name>/`:
 
-| Document | Purpose | Created In |
-|---|---|---|
-| `docs/spec.md` | Project requirements & specification | Phase 1 |
-| `docs/plan.md` | Implementation plan & architecture | Phase 2 |
-| `docs/conventions.md` | Code style, naming, and project conventions | Phase 2 |
-| `docs/risks.md` | Risk register — identified risks & mitigations | Phase 2 |
-| `docs/backlog.md` | Task backlog with granular tasks | Phase 3 |
-| `docs/progress.md` | Progress tracker — updated after every change | Phase 3 |
-| `docs/decisions.md` | Decision log for all choices made | Ongoing |
-| `docs/lessons.md` | Lessons learned — pitfalls and failures to avoid | Ongoing |
-| `CHANGELOG.md` | User-facing summary of what was built (lives in project root) | Ongoing |
+| Document | Purpose | Created In | Path |
+|---|---|---|---|
+| `docs/progress.md` | Progress tracker — updated after every change | Phase 3 | Top level (shared across all plans) |
+| `docs/[date]<plan>/spec.md` | Project requirements & specification | Phase 1 | Inside plan folder |
+| `docs/[date]<plan>/plan.md` | Implementation plan & architecture | Phase 2 | Inside plan folder |
+| `docs/[date]<plan>/conventions.md` | Code style, naming, and project conventions | Phase 2 | Inside plan folder |
+| `docs/[date]<plan>/risks.md` | Risk register — identified risks & mitigations | Phase 2 | Inside plan folder |
+| `docs/[date]<plan>/backlog.md` | Task backlog with granular tasks | Phase 3 | Inside plan folder |
+| `docs/[date]<plan>/decisions.md` | Decision log for all choices made | Ongoing | Inside plan folder |
+| `docs/[date]<plan>/lessons.md` | Lessons learned — pitfalls and failures to avoid | Ongoing | Inside plan folder |
+| `CHANGELOG.md` | User-facing summary of what was built (lives in project root) | Ongoing | Project root |
+
+**Example folder structure:**
+```
+docs/
+├── progress.md
+├── [2026-02-16]initial-setup/
+│   ├── spec.md
+│   ├── plan.md
+│   ├── conventions.md
+│   ├── risks.md
+│   ├── backlog.md
+│   ├── decisions.md
+│   └── lessons.md
+└── [2026-02-20]feature-auth/
+    ├── spec.md
+    ├── plan.md
+    ├── conventions.md
+    ├── risks.md
+    ├── backlog.md
+    ├── decisions.md
+    └── lessons.md
+```
 
 ---
 
@@ -348,8 +370,8 @@ Before doing anything:
    - Third-party integrations
    - Non-functional requirements (performance, scalability, accessibility)
    - Design preferences or constraints (UI framework, styling approach)
-3. Log any decisions made in `docs/decisions.md` (create if needed).
-4. Produce `docs/spec.md` with this structure:
+3. Log any decisions made in `docs/[YYYY-MM-DD]<plan-name>/decisions.md` (create the folder if needed).
+4. Produce `docs/[YYYY-MM-DD]<plan-name>/spec.md` with this structure:
 
 ```markdown
 # Project Specification
@@ -412,8 +434,8 @@ Before doing anything:
    - Architecture pattern (monolith, microservices, serverless, etc.)
    - Testing strategy (unit, integration, E2E — tools and approach)
    - CI/CD considerations
-2. For every significant choice, **ask the user** if they have a preference before deciding. Log all decisions in `docs/decisions.md`.
-3. Produce `docs/plan.md` with this structure:
+2. For every significant choice, **ask the user** if they have a preference before deciding. Log all decisions in `docs/[YYYY-MM-DD]<plan-name>/decisions.md`.
+3. Produce `docs/[YYYY-MM-DD]<plan-name>/plan.md` with this structure:
 
 ```markdown
 # Implementation Plan
@@ -443,7 +465,7 @@ Before doing anything:
 [Order of implementation, key milestones]
 ```
 
-4. Establish project conventions and create `docs/conventions.md`:
+4. Establish project conventions and create `docs/[YYYY-MM-DD]<plan-name>/conventions.md`:
 
 ```markdown
 # Project Conventions
@@ -473,7 +495,7 @@ Before doing anything:
 
    If the project already has an existing codebase, **derive conventions from the existing code** rather than imposing new ones. Document what you observe.
 
-5. Identify technical risks and create `docs/risks.md`:
+5. Identify technical risks and create `docs/[YYYY-MM-DD]<plan-name>/risks.md`:
 
 ```markdown
 # Risk Register
@@ -537,7 +559,7 @@ The remaining milestones cover actual features from the spec.
 1. Break every feature from the spec into granular tasks.
 2. Group tasks into milestones (logical feature groups). **Milestone 1 must follow the template above.**
 3. Assign each task a unique ID (e.g., `M1-T1` = Milestone 1, Task 1).
-4. Produce `docs/backlog.md`:
+4. Produce `docs/[YYYY-MM-DD]<plan-name>/backlog.md`:
 
 ```markdown
 # Task Backlog
@@ -555,26 +577,34 @@ The remaining milestones cover actual features from the spec.
 - [ ] `M2-T1` — ...
 ```
 
-5. Create `docs/progress.md`:
+5. Create `docs/progress.md` as a **session tracking document** with narrative entries linking to planning documents:
 
 ```markdown
 # Progress Tracker
 
-## Current Status
-- **Current Milestone:** M1 — [Name]
-- **Current Task:** Not started
-- **Last Updated:** [date]
-- **Last Session Summary:** N/A
-
-## Completed Tasks
-[None yet]
-
-## Blocked / Needs Decision
-[None yet]
-
 ## Session Log
-| Session | Date | Tasks Completed | Notes |
-|---|---|---|---|
+
+### Session 1 — [Start Date]
+
+**M1-T1 Complete:** Repository initialized with git, .gitignore configured.
+Setup following the project foundation plan in [./[2026-02-16]initial-setup/plan.md](./[2026-02-16]initial-setup/plan.md).
+Git status shows clean repo, ready for first feature work.
+
+**M1-T2 In Progress:** Project scaffold phase.
+Following framework setup documented in [./[2026-02-16]initial-setup/plan.md#project-structure](./[2026-02-16]initial-setup/plan.md).
+
+---
+
+## Quick Reference Links
+- Latest Plan Folder: `docs/[YYYY-MM-DD]<plan-name>/`
+- [Spec](./[DATE]PLAN/spec.md)
+- [Implementation Plan](./[DATE]PLAN/plan.md)
+- [Code Conventions](./[DATE]PLAN/conventions.md)
+- [Risk Register](./[DATE]PLAN/risks.md)
+- [Task Backlog](./[DATE]PLAN/backlog.md)
+- [Decisions Log](./[DATE]PLAN/decisions.md)
+- [Lessons Learned](./[DATE]PLAN/lessons.md)
+```
 ```
 
 6. Present the backlog to the user and ask for approval before proceeding.
@@ -644,14 +674,26 @@ After completing every milestone (all tasks checked off):
 
 ### Critical Rules During Implementation
 
-1. **Ask before deciding.** If any implementation detail is ambiguous or involves a trade-off, ask the user. Log the decision in `docs/decisions.md`.
-2. **Update `docs/progress.md` after EVERY task** — not at the end of the session.
+1. **Ask before deciding.** If any implementation detail is ambiguous or involves a trade-off, ask the user. Log the decision in `docs/[YYYY-MM-DD]<plan-name>/decisions.md`.
+2. **Update `docs/progress.md` after EVERY task** — not at the end of the session. Use a narrative format:
+   
+   **Example entry:**
+   ```
+   ### Session 1 — Feb 16, 2026
+   
+   **M1-T3 Complete:** Implemented user authentication API endpoint.
+   Followed the implementation plan for auth module structure and the conventions documented in [./[2026-02-16]initial-setup/plan.md](./[2026-02-16]initial-setup/plan.md) and [./[2026-02-16]initial-setup/conventions.md](./[2026-02-16]initial-setup/conventions.md).
+   All tests passing. Ready for milestone review.
+   
+   **M1-T4 In Progress:** Setting up test framework.
+   Following [./[2026-02-16]initial-setup/plan.md#testing-strategy](./[2026-02-16]initial-setup/plan.md) for test setup approach.
+   ```
 3. **If you encounter a blocker**, document it in `docs/progress.md` under "Blocked / Needs Decision" and ask the user.
 4. **Follow existing code patterns.** If the project already has conventions (naming, structure, patterns), follow them.
 5. **Do not refactor unrelated code** unless asked.
 6. **Delegate verification to a Tester sub-agent** — do not self-verify as the sole check. See Sub-Agent Quality Gates.
 7. **Update `CHANGELOG.md`** whenever a user-facing feature, fix, or change is completed (see Changelog Format below).
-8. **Review `docs/risks.md`** periodically — update risk statuses and add new risks as they emerge.
+8. **Review `docs/[YYYY-MM-DD]<plan-name>/risks.md`** periodically — update risk statuses and add new risks as they emerge.
 9. **Trigger mandatory sub-agent gates** — Code Review at milestones, Security Audit for sensitive code.
 10. **At the end of your session**, update the Session Log in `docs/progress.md` with a summary so the next agent can pick up seamlessly.
 
@@ -662,9 +704,9 @@ If a task's implementation breaks existing functionality:
 1. **Stop immediately.** Do not pile fixes on top of broken code.
 2. **Revert changes** using `git stash` or `git checkout -- <files>` to restore the last working state.
 3. **Analyze the failure.** Understand the root cause before attempting again.
-4. **Record the lesson in `docs/lessons.md`** — document what was tried, why it failed, and the correct approach. This is mandatory on every rollback.
-5. **If the task is too complex**, break it into smaller sub-tasks in `docs/backlog.md` and proceed with the smaller pieces.
-6. **Before re-attempting**, check `docs/lessons.md` to make sure you're not repeating a known failed approach.
+4. **Record the lesson in `docs/[YYYY-MM-DD]<plan-name>/lessons.md`** — document what was tried, why it failed, and the correct approach. This is mandatory on every rollback.
+5. **If the task is too complex**, break it into smaller sub-tasks in `docs/[YYYY-MM-DD]<plan-name>/backlog.md` and proceed with the smaller pieces.
+6. **Before re-attempting**, check `docs/[YYYY-MM-DD]<plan-name>/lessons.md` to make sure you're not repeating a known failed approach.
 
 ### Debugging Protocol
 

@@ -26,27 +26,47 @@ At the start of Phase 1, ask the user which approval mode they prefer using the 
 | **🔓 Milestone** | Agent works through tasks autonomously, stops for approval at each milestone boundary |
 | **🚀 Auto** | Agent proceeds autonomously, only stopping for decisions that require user input |
 
-Default to **🔓 Milestone** if the user has no preference. Record the choice in `.github/decisions.md`.
+Default to **🔓 Milestone** if the user has no preference. Record the choice in `.github/[YYYY-MM-DD]<plan-name>/decisions.md`.
 
 ---
 
 ## Document Map
 
-All project documents live in the `.github/` folder, leveraging GitHub's native tools:
+All project documents live in the `.github/` folder. Each plan iteration is organized in a **timestamped folder** with the format `.github/[YYYY-MM-DD]<plan-name>/`:
 
-| Document | Purpose | Created In | GitHub Integration |
+| Document | Purpose | Created In | Path |
 |---|---|---|---|
-| `.github/spec.md` | Project requirements & specification | Phase 1 | Linked in GitHub Discussions |
-| `.github/plan.md` | Implementation plan & architecture | Phase 2 | Linked in README, Discussions |
-| `.github/conventions.md` | Code style, naming, and project conventions | Phase 2 | Reference for code consistency |
-| `.github/risks.md` | Risk register — identified risks & mitigations | Phase 2 | Tracked in GitHub Issues w/ `risk` label |
-| `.github/backlog.md` | Task backlog with granular tasks | Phase 3 | Synced to GitHub Project board |
-| `.github/progress.md` | Progress tracker — updated per milestone | Phase 3 | Mirrors GitHub Project status |
-| `.github/decisions.md` | Decision log for all choices made | Ongoing | Reference for future decisions |
-| `.github/lessons.md` | Lessons learned & pitfalls to avoid | Ongoing | Read before starting tasks |
-| `CHANGELOG.md` | User-facing summary of changes | Ongoing | Updated as features complete |
-| **GitHub Project** | **Visual task tracking & progress** | Phase 3 | **Primary backlog interface** |
-| **GitHub Discussions** | **Async requirements & decisions** | Phase 1 | **Discussion with stakeholders** |
+| `.github/progress.md` | Progress tracker — updated after every change | Phase 3 | Top level (shared across all plans) |
+| `.github/[date]<plan>/spec.md` | Project requirements & specification | Phase 1 | Inside plan folder |
+| `.github/[date]<plan>/plan.md` | Implementation plan & architecture | Phase 2 | Inside plan folder |
+| `.github/[date]<plan>/conventions.md` | Code style, naming, and project conventions | Phase 2 | Inside plan folder |
+| `.github/[date]<plan>/risks.md` | Risk register — identified risks & mitigations | Phase 2 | Inside plan folder |
+| `.github/[date]<plan>/backlog.md` | Task backlog with granular tasks | Phase 3 | Inside plan folder |
+| `.github/[date]<plan>/decisions.md` | Decision log for all choices made | Ongoing | Inside plan folder |
+| `.github/[date]<plan>/lessons.md` | Lessons learned & pitfalls to avoid | Ongoing | Inside plan folder |
+| `CHANGELOG.md` | User-facing summary of changes | Ongoing | Project root |
+
+**Example folder structure:**
+```
+.github/
+├── progress.md
+├── [2026-02-16]initial-setup/
+│   ├── spec.md
+│   ├── plan.md
+│   ├── conventions.md
+│   ├── risks.md
+│   ├── backlog.md
+│   ├── decisions.md
+│   └── lessons.md
+└── [2026-02-20]feature-auth/
+    ├── spec.md
+    ├── plan.md
+    ├── conventions.md
+    ├── risks.md
+    ├── backlog.md
+    ├── decisions.md
+    └── lessons.md
+```
 
 ---
 
@@ -348,8 +368,8 @@ Before doing anything:
    - Third-party integrations
    - Non-functional requirements (performance, scalability, accessibility)
    - Design preferences or constraints (UI framework, styling approach)
-3. Log any decisions made in `.github/decisions.md` (create if needed).
-4. Produce `.github/spec.md` with this structure:
+3. Log any decisions made in `.github/[YYYY-MM-DD]<plan-name>/decisions.md` (create the folder if needed).
+4. Produce `.github/[YYYY-MM-DD]<plan-name>/spec.md` with this structure:
 
 5. Present the spec to the user and ask for approval using the **`vscode/askQuestions` tool** before proceeding.
 
@@ -416,8 +436,8 @@ Before doing anything:
    - Architecture pattern (monolith, microservices, serverless, etc.)
    - Testing strategy (unit, integration, E2E — tools and approach)
    - CI/CD considerations
-2. For every significant choice, **ask the user using the `vscode/askQuestions` tool** if they have a preference before deciding. Log all decisions in `.github/decisions.md`.
-3. Produce `.github/plan.md` with this structure:
+2. For every significant choice, **ask the user using the `vscode/askQuestions` tool** if they have a preference before deciding. Log all decisions in `.github/[YYYY-MM-DD]<plan-name>/decisions.md`.
+3. Produce `.github/[YYYY-MM-DD]<plan-name>/plan.md` with this structure:
 
 ```markdown
 # Implementation Plan
@@ -447,7 +467,7 @@ Before doing anything:
 [Order of implementation, key milestones]
 ```
 
-4. Establish project conventions and create `.github/conventions.md`:
+4. Establish project conventions and create `.github/[YYYY-MM-DD]<plan-name>/conventions.md`:
 
 ```markdown
 # Project Conventions
@@ -477,7 +497,7 @@ Before doing anything:
 
    If the project already has an existing codebase, **derive conventions from the existing code** rather than imposing new ones. Document what you observe.
 
-5. Identify technical risks and create `.github/risks.md`:
+5. Identify technical risks and create `.github/[YYYY-MM-DD]<plan-name>/risks.md`:
 
 ```markdown
 # Risk Register
@@ -544,7 +564,7 @@ The remaining milestones cover actual features from the spec.
 4. **Create a GitHub Project board** (if not already created):
    - Use template: "Table" or "Board" view (user preference).
    - Set up columns: `📋 Backlog` → `🔄 In Progress` → `✅ Done`.
-5. Produce `.github/backlog.md`:
+5. Produce `.github/[YYYY-MM-DD]<plan-name>/backlog.md`:
 
 ```markdown
 # Task Backlog
@@ -562,26 +582,33 @@ The remaining milestones cover actual features from the spec.
 - [ ] `M2-T1` — ...
 ```
 
-6. Create `.github/progress.md` as a **session tracking document**:
+6. Create `.github/progress.md` as a **session tracking document** with narrative entries linking to planning documents:
 
 ```markdown
 # Progress Tracker
 
-## Current Status
-- **Current Milestone:** M1 — [Name]
-- **Current Task:** Not started
-- **Last Updated:** [date]
-- **Last Session Summary:** N/A
-
-## Completed Tasks
-[None yet]
-
-## Blocked / Needs Decision
-[None yet]
-
 ## Session Log
-| Session | Date | Tasks Completed | Notes |
-|---|---|---|---|
+
+### Session 1 — [Start Date]
+
+**M1-T1 Complete:** Repository initialized with git, .gitignore configured.
+Setup following the project foundation plan in [./[2026-02-16]initial-setup/plan.md](./[2026-02-16]initial-setup/plan.md).
+Git status shows clean repo, ready for first feature work.
+
+**M1-T2 In Progress:** Project scaffold phase.
+Following framework setup documented in [./[2026-02-16]initial-setup/plan.md#project-structure](./[2026-02-16]initial-setup/plan.md).
+
+---
+
+## Quick Reference Links
+- Latest Plan Folder: `.github/[YYYY-MM-DD]<plan-name>/`
+- [Spec](./[DATE]PLAN/spec.md)
+- [Implementation Plan](./[DATE]PLAN/plan.md)
+- [Code Conventions](./[DATE]PLAN/conventions.md)
+- [Risk Register](./[DATE]PLAN/risks.md)
+- [Task Backlog](./[DATE]PLAN/backlog.md)
+- [Decisions Log](./[DATE]PLAN/decisions.md)
+- [Lessons Learned](./[DATE]PLAN/lessons.md)
 ```
 
 7. Present the backlog to the user using the **`vscode/askQuestions` tool** and ask for approval before proceeding.
@@ -651,14 +678,26 @@ After completing every milestone (all tasks checked off):
 
 ### Critical Rules During Implementation
 
-1. **Ask before deciding.** If any implementation detail is ambiguous or involves a trade-off, ask the user using the **`vscode/askQuestions` tool**. Log the decision in `.github/decisions.md`.
-2. **Update `.github/progress.md` after EVERY task** — not at the end of the session.
+1. **Ask before deciding.** If any implementation detail is ambiguous or involves a trade-off, ask the user using the **`vscode/askQuestions` tool**. Log the decision in `.github/[YYYY-MM-DD]<plan-name>/decisions.md`.
+2. **Update `.github/progress.md` after EVERY task** — not at the end of the session. Use a narrative format:
+   
+   **Example entry:**
+   ```
+   ### Session 1 — Feb 16, 2026
+   
+   **M1-T3 Complete:** Implemented user authentication API endpoint.
+   Followed the implementation plan for auth module structure and the conventions documented in [./[2026-02-16]initial-setup/plan.md](./[2026-02-16]initial-setup/plan.md) and [./[2026-02-16]initial-setup/conventions.md](./[2026-02-16]initial-setup/conventions.md).
+   All tests passing. Ready for milestone review.
+   
+   **M1-T4 In Progress:** Setting up test framework.
+   Following [./[2026-02-16]initial-setup/plan.md#testing-strategy](./[2026-02-16]initial-setup/plan.md) for test setup approach.
+   ```
 3. **If you encounter a blocker**, document it in `.github/progress.md` under "Blocked / Needs Decision" and ask the user using the **`vscode/askQuestions` tool**.
 4. **Follow existing code patterns.** If the project already has conventions (naming, structure, patterns), follow them.
 5. **Do not refactor unrelated code** unless asked.
 6. **Delegate verification to a Tester sub-agent** — do not self-verify as the sole check. See Sub-Agent Quality Gates.
 7. **Update `CHANGELOG.md`** whenever a user-facing feature, fix, or change is completed (see Changelog Format below).
-8. **Review `.github/risks.md`** periodically — update risk statuses and add new risks as they emerge.
+8. **Review `.github/[YYYY-MM-DD]<plan-name>/risks.md`** periodically — update risk statuses and add new risks as they emerge.
 9. **Trigger mandatory sub-agent gates** — Code Review at milestones, Security Audit for sensitive code.
 10. **At the end of your session**, update the Session Log in `.github/progress.md` with a summary so the next agent can pick up seamlessly.
 
@@ -669,9 +708,9 @@ If a task's implementation breaks existing functionality:
 1. **Stop immediately.** Do not pile fixes on top of broken code.
 2. **Revert changes** using `git stash` or `git checkout -- <files>` to restore the last working state.
 3. **Analyze the failure.** Understand the root cause before attempting again.
-4. **Record the lesson in `.github/lessons.md`** — document what was tried, why it failed, and the correct approach. This is mandatory on every rollback.
-5. **If the task is too complex**, break it into smaller sub-tasks in `.github/backlog.md` and proceed with the smaller pieces.
-6. **Before re-attempting**, check `.github/lessons.md` to make sure you're not repeating a known failed approach.
+4. **Record the lesson in `.github/[YYYY-MM-DD]<plan-name>/lessons.md`** — document what was tried, why it failed, and the correct approach. This is mandatory on every rollback.
+5. **If the task is too complex**, break it into smaller sub-tasks in `.github/[YYYY-MM-DD]<plan-name>/backlog.md` and proceed with the smaller pieces.
+6. **Before re-attempting**, check `.github/[YYYY-MM-DD]<plan-name>/lessons.md` to make sure you're not repeating a known failed approach.
 
 ### Debugging Protocol
 
